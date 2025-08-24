@@ -16,8 +16,8 @@ start()
 {
   // set M Previous Privilege mode to Supervisor, for mret.
   unsigned long x = r_mstatus();
-  x &= ~MSTATUS_MPP_MASK;
-  x |= MSTATUS_MPP_S;
+  x &= ~MSTATUS_MPP_MASK; // clear previous priviledge bits
+  x |= MSTATUS_MPP_S; // set to supervisor mode
   w_mstatus(x);
 
   // set M Exception Program Counter to main, for mret.
