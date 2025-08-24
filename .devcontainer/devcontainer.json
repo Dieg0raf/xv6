@@ -1,0 +1,11 @@
+{
+  "name": "xv6-riscv",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "workspaceFolder": "/xv6",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/xv6,type=bind"
+  ]
+}
+
