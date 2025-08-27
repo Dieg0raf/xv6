@@ -1,4 +1,4 @@
-// init: The initial user-level program
+// init: The initial user-level program (sets up a couple of things for the user space)
 
 #include "kernel/types.h"
 #include "kernel/stat.h"

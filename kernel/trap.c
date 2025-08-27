@@ -6,6 +6,39 @@
 #include "proc.h"
 #include "defs.h"
 
+/*
+  ┌─────────────────────────────────────────────────────────────┐
+│                    USER PROCESS                             │
+│                                                             │
+│  1. User calls: read(3, buf, 512)                          │
+│                                                             │
+│  2. Compiler generates code that puts:                     │
+│     - 3 into a0 register                                   │
+│     - buf address into a1 register                         │
+│     - 512 into a2 register                                 │
+│     - SYS_read (63) into a7 register                       │
+│                                                             │
+│  3. Execute: ecall (system call instruction)               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+                                │
+                                ▼ (trap to kernel)
+┌─────────────────────────────────────────────────────────────┐
+│                      KERNEL                                 │
+│                                                             │
+│  4. syscall() function reads from trapframe:               │
+│                                                             │
+│     num = p->trapframe->a7;  // Gets 63 (SYS_read)         │
+│     syscalls[num]();         // Calls sys_read()           │
+│                                                             │
+│  5. sys_read() accesses arguments via trapframe:           │
+│     int fd = argint(0);      // Gets a0 (fd = 3)           │
+│     char *buf = argaddr(1);  // Gets a1 (buffer address)   │
+│     int count = argint(2);   // Gets a2 (count = 512)      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+*/
+
 struct spinlock tickslock;
 uint ticks;
 

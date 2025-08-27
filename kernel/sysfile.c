@@ -443,6 +443,7 @@ sys_exec(void)
     return -1;
   }
   memset(argv, 0, sizeof(argv));
+  // Used to pass args from user-space (user address space) to kernel-space (kernel address space)
   for(i=0;; i++){
     if(i >= NELEM(argv)){
       goto bad;

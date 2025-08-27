@@ -7,8 +7,20 @@
 void main();
 void timerinit();
 
-// entry.S needs one stack per CPU.
+// entry.S needs one stack per CPU. (creates a static array that will serve as the stack memory)
 __attribute__ ((aligned (16))) char stack0[4096 * NCPU];
+
+/* char stack0[4096 * NCPU];
+  -  literally just a big array of bytes that the kernel statically allocates, 
+      and each CPU gets its own 4KB slice of this array to use as its initial stack!
+*/
+
+/* aligned(16)
+  - align this variable on a 16-byte boundary in memory
+  - meaning the starting address of stack0 will be divisible by 16
+  - E.g.: if it would normally be at address 0x80007873, it gets moved to 0x80007880
+*/
+
 
 // entry.S jumps here in machine mode on stack0.
 void

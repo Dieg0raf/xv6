@@ -114,14 +114,14 @@ allocproc(void)
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if(p->state == UNUSED) {
-      goto found;
+      goto found; // immediately transfer control to the "found:" label (line 124)
     } else {
       release(&p->lock);
     }
   }
   return 0;
 
-found:
+found: // This is where goto jumps to
   p->pid = allocpid();
   p->state = USED;
 
